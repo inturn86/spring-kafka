@@ -1,9 +1,9 @@
 package com.sdc.kafka.listener;
 
-import java.util.Map;
-
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.annotation.PartitionOffset;
+import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
@@ -28,22 +28,15 @@ public class Consumer {
      * ### topic: dev-topic, value: kafka message, offset: 1
      * @param record
      */
-//    @KafkaListener(topicPartitions = @TopicPartition(topic = "dev-topic",
-//    		  partitionOffsets = {
-//    				    @PartitionOffset(partition = "0", initialOffset = "0"),
-//    				    @PartitionOffset(partition = "", initialOffset = "0")}))
-    @KafkaListener(topics = "dev-topic")
-    public void messageListener(ConsumerRecord<String, Map<String, String>> record, Acknowledgment acknowledgment) {
+    @KafkaListener(topicPartitions = @TopicPartition(topic = "dev-topic",
+    		  partitionOffsets = {
+    				    @PartitionOffset(partition = "0", initialOffset = "0"),
+    				    @PartitionOffset(partition = "3", initialOffset = "0")}))
+    public void messageListener(ConsumerRecord<String, String> record, Acknowledgment acknowledgment) {
         log.info("### record: " + record.toString());
         log.info("### topic: " + record.topic() + ", value: " + record.value() + ", offset: " + record.offset());
+
         // kafka 메시지 읽어온 곳까지 commit. (이 부분을 하지 않으면 메시지를 소비했다고 commit 된 것이 아니므로 계속 메시지를 읽어온다)
         acknowledgment.acknowledge();
-    }
-    @KafkaListener(topics = "dev-topic")
-    public void messageListener2(ConsumerRecord<String, Map<String, String>> record, Acknowledgment acknowledgment) {
-    	log.info("### record: " + record.toString());
-    	log.info("### topic: " + record.topic() + ", value: " + record.value() + ", offset: " + record.offset());
-    	// kafka 메시지 읽어온 곳까지 commit. (이 부분을 하지 않으면 메시지를 소비했다고 commit 된 것이 아니므로 계속 메시지를 읽어온다)
-    	acknowledgment.acknowledge();
     }
 }
