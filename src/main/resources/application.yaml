@@ -1,0 +1,42 @@
+spring:
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      acks: all
+    listener:
+      ack-mode: MANUAL_IMMEDIATE
+      type: SINGLE
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: dev-group
+      
+  datasource:
+    url: jdbc:log4jdbc:postgresql://218.155.198.200:5432/ntq-sample
+    username: ntq
+    password: 'ntq1234'
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 20
+    type: com.zaxxer.hikari.HikariDataSource
+    driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+  sql:
+    init:
+      platform: postgresql
+      mode: never
+  jpa:
+    properties:
+      javax:
+        persistence:
+          sharedCache:
+            mode: ENABLE_SELECTIVE
+      hibernate:
+        show_sql: true
+#        use_sql_comments: true
+        format_sql: true
+        jdbc:
+          batch_size: 100
+        order_inserts: true
+        order_updates: true
+        dialect: org.hibernate.dialect.PostgreSQL92Dialect
+
+
