@@ -2,14 +2,20 @@ spring:
   kafka:
     producer:
       bootstrap-servers: localhost:9092
+#     ack - producer 상세 옵션으로 replication 과 연관
+#     0 - leader partition이 follower에게 전달할 때 ack 받지 않음.
+#     1 - leader partition이 follower에 데이터 전달 시 응답을 받지만 정상적으로 복제되었는지 확인은 불가
+#     all - leader partition이 follower에 데이터를 전달하고 follower에 데이터를 정상적으로 저장하였는지 확인.
       acks: all
+
     listener:
+#     수동 커밋 옵션
       ack-mode: MANUAL_IMMEDIATE
       type: SINGLE
     consumer:
       bootstrap-servers: localhost:9092
       group-id: dev-group
-      
+
   datasource:
     url: jdbc:log4jdbc:postgresql://218.155.198.200:5432/ntq-sample
     username: ntq
@@ -22,7 +28,7 @@ spring:
   sql:
     init:
       platform: postgresql
-      mode: never
+    mode: never
   jpa:
     properties:
       javax:
