@@ -1,5 +1,6 @@
 package com.sdc.kafka.batch;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class ProducerBatch {
 
 	private final KafkaTemplate<String, UserDTO> kafkaTemplate;
